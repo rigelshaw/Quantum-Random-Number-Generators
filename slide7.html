@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Random Number Generators - Slide 7</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #0a0e17;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      position: relative;
+      transform: scale(0.85);
+      transform-origin: center center;
+    }
+    .quantum-bg {
+      background: radial-gradient(ellipse at center, #1a1f35 0%, #0a0e17 70%);
+    }
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      z-index: 1;
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 14, 23, 0.7);
+      z-index: 2;
+    }
+    .quantum-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 200, 255, 0.3);
+      filter: blur(2px);
+    }
+    .quantum-grid {
+      background-image: 
+        linear-gradient(rgba(0, 200, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .neon-glow {
+      box-shadow: 0 0 10px rgba(0, 200, 255, 0.7),
+                  0 0 20px rgba(0, 200, 255, 0.5),
+                  0 0 30px rgba(0, 200, 255, 0.3);
+    }
+    .insight-card {
+      border: 2px solid rgba(0, 200, 255, 0.4);
+      border-radius: 12px;
+      background: rgba(0, 200, 255, 0.08);
+      backdrop-filter: blur(10px);
+    }
+    .circuit-display {
+      border: 2px solid rgba(0, 200, 255, 0.5);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide quantum-bg flex items-center justify-between p-12 relative">
+
+    <video class="video-bg" autoplay muted loop>
+      <source src="https://cdn.pixabay.com/video/2020/02/20/32643-392967100_large.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+    <div class="absolute inset-0 quantum-grid"></div>
+    <div id="particles-container" class="absolute inset-0"></div>
+    
+    <!-- LEFT SIDE -->
+    <div class="flex-1 pr-10 z-10">
+      <h1 class="title text-4xl font-light mb-6 leading-tight"
+          style="color:#ffffff;text-shadow:0 0 10px rgba(0,200,255,0.5);">
+        Understanding Our QRNG<br>Implementation
+      </h1>
+      
+      <div class="space-y-6">
+        <h3 class="text-xl font-medium mb-4 text-cyan-300">Key Observations:</h3>
+
+        <div class="space-y-4">
+          <div class="insight-card p-4 neon-glow">
+            <p class="text-cyan-100 text-sm">Random analog states are captured at unpredictable intervals.</p>
+          </div>
+
+          <div class="insight-card p-4 neon-glow">
+            <p class="text-cyan-100 text-sm">Noise-driven timing improves randomness quality significantly.</p>
+          </div>
+
+          <div class="insight-card p-4 neon-glow">
+            <p class="text-cyan-100 text-sm">Arduino maps random bits to CAPTCHA indices efficiently.</p>
+          </div>
+
+          <div class="insight-card p-4 neon-glow">
+            <p class="text-cyan-100 text-sm">Output buffers ensure clean, stable signals.</p>
+          </div>
+
+          <div class="insight-card p-4 neon-glow">
+            <p class="text-cyan-100 text-sm">This shows practical use of quantum-inspired noise sources.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- RIGHT SIDE -->
+    <div class="flex-1 relative z-10">
+
+      <!-- CIRCUIT IMAGE INSERTED HERE -->
+      <div class="circuit-display h-96 p-6 neon-glow relative flex items-center justify-center">
+        <img 
+          src="https://i.im.ge/2025/11/21/4S1SXJ.circuitimage.jpeg"
+          alt="QRNG Circuit"
+          class="rounded-lg max-h-[330px] border border-cyan-500/40 shadow-xl"
+        >
+
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center">
+          <div class="text-cyan-300 text-lg mb-2">QRNG Circuit Diagram</div>
+          <div class="text-cyan-200 text-sm">Actual hardware implementation</div>
+        </div>
+      </div>
+
+      <!-- CORE INSIGHT BOX (kept unchanged) -->
+      <div class="mt-6 insight-card p-5 neon-glow">
+        <h3 class="text-lg font-medium mb-3 text-cyan-300 text-center">Core Insight</h3>
+        <p class="text-cyan-100 text-sm text-center">
+          Quantum-inspired analog chaos + digital precision = true randomness at low cost.
+        </p>
+      </div>
+
+      <div class="absolute -top-3 -right-3 w-12 h-12"
+           style="background:radial-gradient(circle,rgba(0,200,255,0.3) 0%,transparent 70%);border-radius:50%;"></div>
+
+    </div>
+  </div>
+
+  <script>
+    gsap.registerPlugin(SplitText);
+
+    // Particles
+    function createParticles(containerId, count = 12) {
+      const container = document.getElementById(containerId);
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'quantum-particle';
+        const size = Math.random() * 6 + 2;
+        p.style.width = `${size}px`;
+        p.style.height = `${size}px`;
+        p.style.left = `${Math.random() * 100}%`;
+        p.style.top = `${Math.random() * 100}%`;
+        container.appendChild(p);
+        gsap.to(p, {
+          x: `+=${(Math.random()-0.5)*50}`,
+          y: `+=${(Math.random()-0.5)*50}`,
+          duration: Math.random()*6+3,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    }
+    createParticles('particles-container');
+  </script>
+
+</body>
+</html>

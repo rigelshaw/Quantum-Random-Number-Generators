@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Random Number Generators - Slide 9</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #0a0e17;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      position: relative;
+      transform: scale(0.8);
+      transform-origin: center center;
+    }
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      z-index: 1;
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 14, 23, 0.7);
+      z-index: 2;
+    }
+    .quantum-grid {
+      background-image:
+        linear-gradient(rgba(0, 200, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .quantum-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 200, 255, 0.3);
+      filter: blur(2px);
+    }
+    .neon-glow {
+      box-shadow: 0 0 10px rgba(0, 200, 255, 0.7),
+                  0 0 20px rgba(0, 200, 255, 0.5),
+                  0 0 30px rgba(0, 200, 255, 0.3);
+    }
+    .feature-card {
+      border: 2px solid rgba(0, 200, 255, 0.4);
+      border-radius: 12px;
+      background: rgba(0, 200, 255, 0.08);
+      backdrop-filter: blur(10px);
+    }
+    .captcha-ui {
+      border: 2px solid rgba(0, 200, 255, 0.5);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+    }
+    .captcha-text {
+      background: linear-gradient(135deg, #00c8ff, #0066ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide quantum-bg flex items-center justify-between p-10 relative">
+
+    <video class="video-bg" autoplay muted loop>
+      <source src="https://cdn.pixabay.com/video/2025/09/25/306248_large.mp4" type="video/mp4">
+    </video>
+
+    <div class="video-overlay"></div>
+    <div class="absolute inset-0 quantum-grid"></div>
+    <div id="particles-container" class="absolute inset-0"></div>
+    
+    <!-- LEFT PANEL -->
+    <div class="flex-1 pr-8 z-10">
+
+      <h1 class="title text-3xl font-light mb-6 leading-tight text-white" 
+          style="text-shadow:0 0 10px rgba(0,200,255,0.5);">
+        QRNG-Based CAPTCHA Generator
+      </h1>
+
+      <h3 class="text-xl font-medium mb-4 text-cyan-300">Features:</h3>
+
+      <div class="grid grid-cols-2 gap-4">
+
+        <div class="feature-card p-4 neon-glow">
+          <h4 class="text-cyan-100 font-medium mb-1">🎲 True Quantum-Seeded</h4>
+          <p class="text-cyan-200 text-xs">Hardware-level randomness</p>
+        </div>
+
+        <div class="feature-card p-4 neon-glow">
+          <h4 class="text-cyan-100 font-medium mb-1">⚡ Real-time Generation</h4>
+          <p class="text-cyan-200 text-xs">Instant CAPTCHA creation</p>
+        </div>
+
+        <div class="feature-card p-4 neon-glow">
+          <h4 class="text-cyan-100 font-medium mb-1">🔌 Arduino Integrated</h4>
+          <p class="text-cyan-200 text-xs">Direct hardware mapping</p>
+        </div>
+
+        <div class="feature-card p-4 neon-glow">
+          <h4 class="text-cyan-100 font-medium mb-1">🎯 Adjustable Difficulty</h4>
+          <p class="text-cyan-200 text-xs">Custom levels</p>
+        </div>
+
+        <div class="feature-card p-4 neon-glow">
+          <h4 class="text-cyan-100 font-medium mb-1">🌐 API-Ready</h4>
+          <p class="text-cyan-200 text-xs">REST interface</p>
+        </div>
+
+        <div class="feature-card p-4 neon-glow">
+          <h4 class="text-cyan-100 font-medium mb-1">✅ User Validation</h4>
+          <p class="text-cyan-200 text-xs">Real-time verification</p>
+        </div>
+
+      </div>
+    </div>
+    
+    <!-- RIGHT PANEL -->
+    <div class="flex-1 relative z-10">
+
+      <div class="captcha-ui p-6 neon-glow">
+
+        <div class="text-center mb-6">
+          <h3 class="text-xl font-medium text-cyan-300 mb-2">Quantum CAPTCHA</h3>
+          <p class="text-cyan-200 text-sm">Prove you're human</p>
+        </div>
+
+        <div class="bg-cyan-900 bg-opacity-20 rounded-lg p-6 mb-6 border border-cyan-500/30">
+          <div class="text-center">
+            <div class="captcha-text text-3xl mb-2 tracking-widest">7A3K9B</div>
+            <div class="text-cyan-400 text-xs">Generated via QRNG</div>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex justify-between">
+            <button class="px-4 py-2 bg-cyan-700 text-cyan-100 rounded-lg text-sm">Refresh</button>
+            <button class="px-4 py-2 bg-cyan-700 text-cyan-100 rounded-lg text-sm">Audio CAPTCHA</button>
+          </div>
+
+          <input type="text"
+            class="w-full px-4 py-2 bg-black/50 border border-cyan-500 text-cyan-100 rounded-lg text-sm"
+            placeholder="Enter code above">
+
+          <button class="w-full px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-lg text-sm font-medium">
+            Verify CAPTCHA
+          </button>
+        </div>
+
+        <div class="mt-4 text-center">
+          <div class="inline-flex items-center bg-cyan-900/30 px-3 py-1 rounded-full border border-cyan-500/30">
+            <div class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+            <span class="text-cyan-200 text-xs">Quantum-Secured</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="absolute -top-3 -right-3 w-10 h-10" 
+        style="background:radial-gradient(circle,rgba(0,200,255,0.3) 0%,transparent 70%); border-radius:50%;"></div>
+
+    </div>
+  </div>
+
+  <script>
+    gsap.registerPlugin(SplitText);
+
+    function createParticles(id, count = 12) {
+      const c = document.getElementById(id);
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'quantum-particle';
+        const s = Math.random() * 6 + 2;
+        p.style.width = p.style.height = s + 'px';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        c.appendChild(p);
+        gsap.to(p, {
+          x: (Math.random() - 0.5) * 60,
+          y: (Math.random() - 0.5) * 60,
+          duration: Math.random() * 6 + 3,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    }
+    createParticles('particles-container');
+
+    setTimeout(() => {
+      const title = document.querySelector('.title');
+      const featureCards = document.querySelectorAll('.feature-card');
+      const captchaUI = document.querySelector('.captcha-ui');
+      const captchaText = document.querySelector('.captcha-text');
+
+      if (title) {
+        const split = new SplitText(title, { type: "chars" });
+        gsap.from(split.chars, { opacity: 0, y: 30, stagger: 0.02, duration: 0.8, ease: "back.out(1.7)" });
+      }
+
+      gsap.from(featureCards, {
+        opacity: 0, y: 30, scale: 0.9, stagger: 0.1,
+        delay: 0.5, duration: 0.6, ease: "back.out(1.7)"
+      });
+
+      gsap.from(captchaUI, {
+        opacity: 0, scale: 0.9, x: 30,
+        delay: 0.8, duration: 1, ease: "back.out(1.7)"
+      });
+
+      gsap.from(captchaText, {
+        opacity: 0, scale: 0.5, rotation: 8,
+        delay: 1.5, duration: 0.8, ease: "elastic.out(1,0.5)"
+      });
+
+    }, 500);
+  </script>
+
+</body>
+</html>
