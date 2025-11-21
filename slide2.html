@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Random Number Generators - Slide 2</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #0a0e17;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      position: relative;
+      transform: scale(0.85);
+      transform-origin: center center;
+    }
+    .quantum-bg {
+      background: radial-gradient(ellipse at center, #1a1f35 0%, #0a0e17 70%);
+    }
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      z-index: 1;
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 14, 23, 0.7);
+      z-index: 2;
+    }
+    .quantum-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 200, 255, 0.3);
+      filter: blur(2px);
+    }
+    .quantum-grid {
+      background-image: 
+        linear-gradient(rgba(0, 200, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .neon-glow {
+      box-shadow: 0 0 10px rgba(0, 200, 255, 0.7),
+                  0 0 20px rgba(0, 200, 255, 0.5),
+                  0 0 30px rgba(0, 200, 255, 0.3);
+    }
+    .text-line {
+      display: block;
+      width: 100%;
+    }
+    .content-video {
+      border: 2px solid rgba(0, 200, 255, 0.5);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide quantum-bg flex items-center justify-between p-12 relative">
+    <video class="video-bg" autoplay muted loop>
+      <source src="https://cdn.pixabay.com/video/2020/09/09/49470-459459129_large.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+    <div class="absolute inset-0 quantum-grid"></div>
+    <div id="particles-container" class="absolute inset-0"></div>
+    
+    <div class="flex-1 pr-10 z-10">
+      <h1 class="title text-4xl font-light mb-6 leading-tight" style="color:#ffffff;text-shadow:0 0 10px rgba(0,200,255,0.5);">
+        Why Quantum Randomness?
+      </h1>
+      <div class="space-y-4">
+        <div class="text-point flex items-start">
+          <div class="w-3 h-3 rounded-full mt-2 mr-4 flex-shrink-0 bg-cyan-500"></div>
+          <p class="text-lg text-cyan-100">
+            <span class="text-line">Classical randomness is algorithmic →</span>
+            <span class="text-line">predictable with enough computation.</span>
+          </p>
+        </div>
+        <div class="text-point flex items-start">
+          <div class="w-3 h-3 rounded-full mt-2 mr-4 flex-shrink-0 bg-cyan-500"></div>
+          <p class="text-lg text-cyan-100">
+            <span class="text-line">Quantum randomness arises from</span>
+            <span class="text-line">fundamental uncertainty → impossible</span>
+            <span class="text-line">to predict.</span>
+          </p>
+        </div>
+        
+        <div class="mt-6">
+          <h3 class="text-xl font-medium mb-3 text-cyan-300">Key Points</h3>
+          <div class="bg-black bg-opacity-30 p-4 rounded-lg border border-cyan-500 border-opacity-30 neon-glow">
+            <div class="space-y-2">
+              <p class="text-base text-cyan-100">• Classical generators = deterministic patterns</p>
+              <p class="text-base text-cyan-100">• Quantum mechanics = true unpredictability</p>
+              <p class="text-base text-cyan-100">• Measurement outcomes are fundamentally random</p>
+              <p class="text-base text-cyan-100">• QRNGs are the gold standard for security & cryptography</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <h3 class="text-xl font-medium mb-3 text-cyan-300">Our Project Achievement</h3>
+          <div class="bg-black bg-opacity-30 p-4 rounded-lg border border-cyan-500 border-opacity-30 neon-glow">
+            <p class="text-base text-cyan-100">
+              <span class="text-line">Built a fully functional QRNG prototype</span>
+              <span class="text-line">that generates true binary output (0/1)</span>
+              <span class="text-line">ready for real-world security applications.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex-1 relative z-10">
+      <!-- Video replacing the quantum dots -->
+      <div class="relative overflow-hidden rounded-lg h-96 neon-glow content-video">
+        <video class="w-full h-full object-cover" autoplay muted loop>
+          <source src="https://cdn.pixabay.com/video/2020/09/09/49470-459459129_large.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40"></div>
+      </div>
+      
+      <!-- Glowing accent element -->
+      <div class="absolute -top-3 -right-3 w-12 h-12" style="background:radial-gradient(circle,rgba(0,200,255,0.3) 0%,transparent 70%);border-radius:50%;"></div>
+    </div>
+  </div>
+
+  <script>
+    gsap.registerPlugin(SplitText);
+    
+    // Create quantum particles
+    function createParticles(containerId, count = 12) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'quantum-particle';
+        
+        const size = Math.random() * 6 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        container.appendChild(particle);
+        
+        // Animate particles
+        gsap.to(particle, {
+          x: `+=${(Math.random() - 0.5) * 60}`,
+          y: `+=${(Math.random() - 0.5) * 60}`,
+          duration: Math.random() * 6 + 3,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    }
+    
+    // Initialize particles
+    createParticles('particles-container');
+    
+    // Initialize animations
+    setTimeout(() => {
+      const title = document.querySelector('.title');
+      const textPoints = document.querySelectorAll('.text-point');
+      const achievementBox = document.querySelectorAll('.bg-black.bg-opacity-30');
+      const contentVideo = document.querySelector('.content-video');
+      
+      if (title) {
+        const titleSplit = new SplitText(title, { type: "chars" });
+        gsap.fromTo(titleSplit.chars, {
+          opacity: 0,
+          y: 30,
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.03,
+          ease: "back.out(1.7)"
+        });
+      }
+      
+      // Animate text points
+      gsap.fromTo(textPoints, {
+        opacity: 0,
+        x: -30
+      }, {
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        delay: 0.5,
+        ease: "power2.out"
+      });
+      
+      // Animate achievement boxes
+      gsap.fromTo(achievementBox, {
+        opacity: 0,
+        y: 20
+      }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.3,
+        delay: 1.2,
+        ease: "power2.out"
+      });
+      
+      // Animate the video
+      if (contentVideo) {
+        gsap.fromTo(contentVideo, {
+          opacity: 0,
+          scale: 0.8,
+          rotation: -5
+        }, {
+          opacity: 1,
+          scale: 1,
+          rotation: 0,
+          duration: 1.2,
+          delay: 0.3,
+          ease: "back.out(1.7)"
+        });
+      }
+      
+    }, 500);
+  </script>
+</body>
+</html>

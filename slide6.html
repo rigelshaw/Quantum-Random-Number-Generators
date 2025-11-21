@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Random Number Generators - Slide 6</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #0a0e17;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      position: relative;
+      transform: scale(0.85);
+      transform-origin: center center;
+    }
+    .quantum-bg {
+      background: radial-gradient(ellipse at center, #1a1f35 0%, #0a0e17 70%);
+    }
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      z-index: 1;
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 14, 23, 0.7);
+      z-index: 2;
+    }
+    .quantum-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 200, 255, 0.3);
+      filter: blur(2px);
+    }
+    .quantum-grid {
+      background-image: 
+        linear-gradient(rgba(0, 200, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .neon-glow {
+      box-shadow: 0 0 10px rgba(0, 200, 255, 0.7),
+                  0 0 20px rgba(0, 200, 255, 0.5),
+                  0 0 30px rgba(0, 200, 255, 0.3);
+    }
+    .text-line {
+      display: block;
+      width: 100%;
+    }
+    .workflow-node {
+      border: 2px solid rgba(0, 200, 255, 0.6);
+      border-radius: 12px;
+      background: rgba(0, 200, 255, 0.1);
+      backdrop-filter: blur(10px);
+      flex-shrink: 0;
+    }
+    .connection-line {
+      height: 2px;
+      background: linear-gradient(90deg, #00c8ff, transparent);
+      position: relative;
+      flex: 1;
+      max-width: 80px;
+    }
+    .connection-line::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      background: #00c8ff;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; transform: translateY(-50%) scale(1); }
+      50% { opacity: 0.3; transform: translateY(-50%) scale(0.8); }
+      100% { opacity: 1; transform: translateY(-50%) scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="slide quantum-bg flex flex-col p-12 relative">
+    <video class="video-bg" autoplay muted loop>
+      <source src="https://cdn.pixabay.com/video/2023/04/15/159021-818026286_large.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+    <div class="absolute inset-0 quantum-grid"></div>
+    <div id="particles-container" class="absolute inset-0"></div>
+    
+    <div class="text-center mb-8 z-10">
+      <h1 class="title text-4xl font-light mb-4" style="color:#ffffff;text-shadow:0 0 10px rgba(0,200,255,0.5);">
+        End-to-End QRNG Workflow
+      </h1>
+    </div>
+    
+    <!-- Horizontal Workflow -->
+    <div class="flex-1 flex flex-col justify-center z-10">
+      <!-- Main Horizontal Flow -->
+      <div class="flex items-center justify-center mb-8">
+        <!-- Step 1 -->
+        <div class="workflow-node p-5 w-48 text-center neon-glow">
+          <h3 class="text-lg font-medium text-cyan-300 mb-2">Quantum Circuit</h3>
+          <p class="text-cyan-200 text-xs">
+            <span class="text-line">Generates entropy using</span>
+            <span class="text-line">quantum-like behavior</span>
+          </p>
+        </div>
+        
+        <div class="connection-line mx-2"></div>
+        
+        <!-- Step 2 -->
+        <div class="workflow-node p-5 w-48 text-center neon-glow">
+          <h3 class="text-lg font-medium text-cyan-300 mb-2">Arduino Interface</h3>
+          <p class="text-cyan-200 text-xs">
+            <span class="text-line">Reads bits → performs</span>
+            <span class="text-line">extraction → sends data</span>
+          </p>
+        </div>
+        
+        <div class="connection-line mx-2"></div>
+        
+        <!-- Step 3 -->
+        <div class="workflow-node p-5 w-48 text-center neon-glow">
+          <h3 class="text-lg font-medium text-cyan-300 mb-2">API Integration</h3>
+          <p class="text-cyan-200 text-xs">
+            <span class="text-line">Provides random numbers</span>
+            <span class="text-line">to external apps securely</span>
+          </p>
+        </div>
+        
+        <div class="connection-line mx-2"></div>
+        
+        <!-- Step 4 -->
+        <div class="workflow-node p-5 w-48 text-center neon-glow">
+          <h3 class="text-lg font-medium text-cyan-300 mb-2">Web Platform</h3>
+          <p class="text-cyan-200 text-xs">
+            <span class="text-line">Displays output in</span>
+            <span class="text-line">real-time & demo tools</span>
+          </p>
+        </div>
+      </div>
+      
+      <!-- Final Output (Centered below) -->
+      <div class="flex justify-center">
+        <div class="workflow-node p-6 w-64 text-center neon-glow bg-cyan-900 bg-opacity-20">
+          <h3 class="text-xl font-medium text-cyan-300 mb-3">QRNG-Powered CAPTCHA</h3>
+          <p class="text-cyan-200 text-sm">
+            <span class="text-line">Uses quantum randomness for</span>
+            <span class="text-line">secure, unpredictable challenges</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  <script>
+    gsap.registerPlugin(SplitText);
+    
+    // Create quantum particles
+    function createParticles(containerId, count = 12) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'quantum-particle';
+        
+        const size = Math.random() * 6 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        container.appendChild(particle);
+        
+        // Animate particles
+        gsap.to(particle, {
+          x: `+=${(Math.random() - 0.5) * 50}`,
+          y: `+=${(Math.random() - 0.5) * 50}`,
+          duration: Math.random() * 6 + 3,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    }
+    
+    // Initialize particles
+    createParticles('particles-container');
+    
+    // Initialize animations
+    setTimeout(() => {
+      const title = document.querySelector('.title');
+      const workflowNodes = document.querySelectorAll('.workflow-node');
+      const connectionLines = document.querySelectorAll('.connection-line');
+      const demoBox = document.querySelector('.bg-black.bg-opacity-30');
+      
+      if (title) {
+        const titleSplit = new SplitText(title, { type: "chars" });
+        gsap.fromTo(titleSplit.chars, {
+          opacity: 0,
+          y: 30,
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.02,
+          ease: "back.out(1.7)"
+        });
+      }
+      
+      // Animate workflow nodes in sequence (horizontal)
+      workflowNodes.forEach((node, index) => {
+        gsap.fromTo(node, {
+          opacity: 0,
+          y: 30,
+          scale: 0.8
+        }, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          delay: 0.5 + (index * 0.2),
+          ease: "back.out(1.7)"
+        });
+      });
+      
+      // Animate connection lines in sequence
+      connectionLines.forEach((line, index) => {
+        gsap.fromTo(line, {
+          scaleX: 0,
+          transformOrigin: "left center"
+        }, {
+          scaleX: 1,
+          duration: 0.6,
+          delay: 0.7 + (index * 0.2),
+          ease: "power2.out"
+        });
+      });
+      
+    }, 500);
+  </script>
+</body>
+</html>

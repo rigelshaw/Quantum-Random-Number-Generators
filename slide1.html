@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Random Number Generators - Slide 1</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #0a0e17;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      position: relative;
+    }
+    .quantum-bg {
+      background: radial-gradient(ellipse at center, #1a1f35 0%, #0a0e17 70%);
+    }
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      z-index: 1;
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 14, 23, 0.7);
+      z-index: 2;
+    }
+    .quantum-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 200, 255, 0.3);
+      filter: blur(2px);
+    }
+    .quantum-grid {
+      background-image: 
+        linear-gradient(rgba(0, 200, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .title-line {
+      display: block;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide quantum-bg flex flex-col justify-center items-center relative">
+    <video class="video-bg" autoplay muted loop>
+      <source src="https://cdn.pixabay.com/video/2025/06/12/285523_large.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+    <div class="absolute inset-0 quantum-grid"></div>
+    
+    <!-- Quantum particle animation -->
+    <div id="particles-container" class="absolute inset-0"></div>
+    
+    <!-- Neon orbit lines -->
+    <div class="absolute w-96 h-96 rounded-full border border-blue-400 opacity-30"></div>
+    <div class="absolute w-64 h-64 rounded-full border border-cyan-400 opacity-40"></div>
+    <div class="absolute w-32 h-32 rounded-full border border-teal-400 opacity-50"></div>
+    
+    <div class="relative z-10 text-center max-w-4xl px-8">
+      <h1 class="title text-6xl font-light mb-6 text-center leading-tight" style="font-family:'Inter',sans-serif;color:#ffffff;text-shadow:0 0 10px rgba(0,200,255,0.5);">
+        <span class="title-line">Quantum Random Number</span>
+        <span class="title-line">Generators: Unlocking</span>
+        <span class="title-line">True Randomness</span>
+      </h1>
+      <div class="w-32 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto mb-6"></div>
+      <h2 class="subtitle text-2xl font-light text-cyan-200 opacity-90 leading-relaxed">
+        Exploring how quantum indeterminacy enables the creation of<br>
+        truly unpredictable random numbers for security,<br>
+        computation, and advanced simulations.
+      </h2>
+      <div class="mt-12 flex justify-center items-center space-x-8 opacity-70">
+        <div class="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
+        <div class="text-cyan-300 text-sm tracking-wider">Physics Project — Experimental Quantum Systems</div>
+        <div class="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    gsap.registerPlugin(SplitText);
+    
+    // Create quantum particles
+    function createParticles(containerId, count = 20) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'quantum-particle';
+        
+        const size = Math.random() * 10 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        container.appendChild(particle);
+        
+        // Animate particles
+        gsap.to(particle, {
+          x: `+=${(Math.random() - 0.5) * 100}`,
+          y: `+=${(Math.random() - 0.5) * 100}`,
+          duration: Math.random() * 10 + 5,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    }
+    
+    // Initialize particles
+    createParticles('particles-container', 25);
+    
+    // Initialize animations
+    setTimeout(() => {
+      const title = document.querySelector('.title');
+      const subtitle = document.querySelector('.subtitle');
+      
+      if (title) {
+        const titleSplit = new SplitText(title, { type: "lines" });
+        gsap.fromTo(titleSplit.lines, {
+          opacity: 0,
+          y: 50,
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.2,
+          ease: "back.out(1.7)"
+        });
+      }
+      
+      if (subtitle) {
+        gsap.fromTo(subtitle, {
+          opacity: 0,
+          y: 30
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          delay: 1,
+          ease: "power3.out"
+        });
+      }
+    }, 500);
+  </script>
+</body>
+</html>

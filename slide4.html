@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Random Number Generators - Slide 4</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #0a0e17;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      position: relative;
+      transform: scale(0.85);
+      transform-origin: center center;
+    }
+    .quantum-bg {
+      background: radial-gradient(ellipse at center, #1a1f35 0%, #0a0e17 70%);
+    }
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      z-index: 1;
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 14, 23, 0.7);
+      z-index: 2;
+    }
+    .quantum-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 200, 255, 0.3);
+      filter: blur(2px);
+    }
+    .quantum-grid {
+      background-image: 
+        linear-gradient(rgba(0, 200, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .neon-glow {
+      box-shadow: 0 0 10px rgba(0, 200, 255, 0.7),
+                  0 0 20px rgba(0, 200, 255, 0.5),
+                  0 0 30px rgba(0, 200, 255, 0.3);
+    }
+    .text-line {
+      display: block;
+      width: 100%;
+    }
+    .timeline-node {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #00c8ff;
+      position: relative;
+      z-index: 10;
+    }
+    .timeline-node::after {
+      content: '';
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 200, 255, 0.3);
+      top: -6px;
+      left: -6px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.1); opacity: 0.3; }
+      100% { transform: scale(1); opacity: 0.7; }
+    }
+    .step-card {
+      border: 2px solid rgba(0, 200, 255, 0.4);
+      border-radius: 12px;
+      background: rgba(0, 200, 255, 0.08);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body>
+  <div class="slide quantum-bg flex flex-col p-12 relative">
+    <video class="video-bg" autoplay muted loop>
+      <source src="https://cdn.pixabay.com/video/2020/03/01/33093-395456662_large.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+    <div class="absolute inset-0 quantum-grid"></div>
+    <div id="particles-container" class="absolute inset-0"></div>
+    
+    <div class="text-center mb-8 z-10">
+      <h1 class="title text-4xl font-light mb-4" style="color:#ffffff;text-shadow:0 0 10px rgba(0,200,255,0.5);">
+        How the QRNG Works — Step by Step
+      </h1>
+    </div>
+    
+    <!-- Timeline Layout -->
+    <div class="flex-1 relative z-10">
+      <!-- Timeline Line -->
+      <div class="absolute left-1/2 top-0 bottom-0 w-1 bg-cyan-500 bg-opacity-30 transform -translate-x-1/2"></div>
+      
+      <!-- Steps Container -->
+      <div class="grid grid-cols-2 gap-y-8 relative">
+        <!-- Step 1 -->
+        <div class="step-card p-5 mr-8 neon-glow">
+          <div class="flex items-start mb-3">
+            <div class="timeline-node mr-4 flex-shrink-0 mt-1"></div>
+            <div>
+              <h3 class="text-xl font-medium text-cyan-300 mb-2">01 — Entropy Generation (555 Timer)</h3>
+              <p class="text-cyan-100 text-sm">
+                <span class="text-line">Produces a rapidly fluctuating analog</span>
+                <span class="text-line">signal with unpredictable peaks.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 2 (Right side) -->
+        <div class="step-card p-5 ml-8 neon-glow col-start-2">
+          <div class="flex items-start mb-3">
+            <div class="timeline-node mr-4 flex-shrink-0 mt-1"></div>
+            <div>
+              <h3 class="text-xl font-medium text-cyan-300 mb-2">02 — Timed Sampling</h3>
+              <p class="text-cyan-100 text-sm">
+                <span class="text-line">The same chip provides a synchronized</span>
+                <span class="text-line">clock pulse for sampling moments.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="step-card p-5 mr-8 neon-glow">
+          <div class="flex items-start mb-3">
+            <div class="timeline-node mr-4 flex-shrink-0 mt-1"></div>
+            <div>
+              <h3 class="text-xl font-medium text-cyan-300 mb-2">03 — State Capture (Flip-Flop)</h3>
+              <p class="text-cyan-100 text-sm">
+                <span class="text-line">Captures the exact instantaneous value</span>
+                <span class="text-line">→ outputs a raw binary 0 or 1.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 4 (Right side) -->
+        <div class="step-card p-5 ml-8 neon-glow col-start-2">
+          <div class="flex items-start mb-3">
+            <div class="timeline-node mr-4 flex-shrink-0 mt-1"></div>
+            <div>
+              <h3 class="text-xl font-medium text-cyan-300 mb-2">04 — Digital Bit Output</h3>
+              <p class="text-cyan-100 text-sm">
+                <span class="text-line">Flip-flop outputs a clean digital</span>
+                <span class="text-line">random bit.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 5 -->
+        <div class="step-card p-5 mr-8 neon-glow">
+          <div class="flex items-start mb-3">
+            <div class="timeline-node mr-4 flex-shrink-0 mt-1"></div>
+            <div>
+              <h3 class="text-xl font-medium text-cyan-300 mb-2">05 — Randomness Extraction (Arduino)</h3>
+              <p class="text-cyan-100 text-sm">
+                <span class="text-line">Arduino filters noise, removes bias,</span>
+                <span class="text-line">and produces high-quality random numbers.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+  <script>
+    gsap.registerPlugin(SplitText);
+    
+    // Create quantum particles
+    function createParticles(containerId, count = 12) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'quantum-particle';
+        
+        const size = Math.random() * 6 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        container.appendChild(particle);
+        
+        // Animate particles
+        gsap.to(particle, {
+          x: `+=${(Math.random() - 0.5) * 50}`,
+          y: `+=${(Math.random() - 0.5) * 50}`,
+          duration: Math.random() * 6 + 3,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    }
+    
+    // Initialize particles
+    createParticles('particles-container');
+    
+    // Initialize animations
+    setTimeout(() => {
+      const title = document.querySelector('.title');
+      const stepCards = document.querySelectorAll('.step-card');
+      const circuitImage = document.querySelector('.circuit-image');
+      const timelineNodes = document.querySelectorAll('.timeline-node');
+      
+      if (title) {
+        const titleSplit = new SplitText(title, { type: "chars" });
+        gsap.fromTo(titleSplit.chars, {
+          opacity: 0,
+          y: 30,
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.02,
+          ease: "back.out(1.7)"
+        });
+      }
+      
+      // Animate timeline line
+      const timelineLine = document.querySelector('.bg-cyan-500');
+      if (timelineLine) {
+        gsap.fromTo(timelineLine, {
+          scaleY: 0,
+          transformOrigin: "top center"
+        }, {
+          scaleY: 1,
+          duration: 1.5,
+          delay: 0.5,
+          ease: "power2.out"
+        });
+      }
+      
+      // Animate step cards with staggered delay based on position
+      stepCards.forEach((card, index) => {
+        gsap.fromTo(card, {
+          opacity: 0,
+          x: index % 2 === 0 ? -50 : 50,
+          scale: 0.9
+        }, {
+          opacity: 1,
+          x: 0,
+          scale: 1,
+          duration: 0.8,
+          delay: 0.8 + (index * 0.2),
+          ease: "back.out(1.7)"
+        });
+      });
+      
+      // Animate timeline nodes with pulse effect
+      timelineNodes.forEach((node, index) => {
+        gsap.fromTo(node, {
+          opacity: 0,
+          scale: 0
+        }, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          delay: 1 + (index * 0.15),
+          ease: "elastic.out(1, 0.5)"
+        });
+      });
+      
+    }, 500);
+  </script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Random Number Generators - Slide 13</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #0a0e17;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      position: relative;
+      transform: scale(0.8);
+      transform-origin: center center;
+    }
+    .quantum-bg {
+      background: radial-gradient(ellipse at center, #1a1f35 0%, #0a0e17 70%);
+    }
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      z-index: 1;
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 14, 23, 0.7);
+      z-index: 2;
+    }
+    .quantum-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 200, 255, 0.3);
+      filter: blur(2px);
+    }
+    .quantum-grid {
+      background-image: 
+        linear-gradient(rgba(0, 200, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .neon-glow {
+      box-shadow: 0 0 10px rgba(0, 200, 255, 0.7),
+                  0 0 20px rgba(0, 200, 255, 0.5),
+                  0 0 30px rgba(0, 200, 255, 0.3);
+    }
+    .text-line {
+      display: block;
+      width: 100%;
+    }
+    .central-orb {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #00c8ff 0%, #0066ff 50%, transparent 70%);
+      filter: blur(10px);
+      opacity: 0.3;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: orbPulse 4s ease-in-out infinite;
+    }
+    @keyframes orbPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.5; }
+    }
+    .name-glow {
+      text-shadow: 0 0 10px rgba(0, 200, 255, 0.7),
+                   0 0 20px rgba(0, 200, 255, 0.5);
+      transition: all 0.3s ease;
+    }
+    .name-glow:hover {
+      text-shadow: 0 0 15px rgba(0, 200, 255, 0.9),
+                   0 0 30px rgba(0, 200, 255, 0.7),
+                   0 0 45px rgba(0, 200, 255, 0.5);
+      transform: translateY(-2px);
+    }
+    .fade-out {
+      animation: nebulaFade 3s ease-in-out 2s forwards;
+    }
+    @keyframes nebulaFade {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="slide quantum-bg flex flex-col justify-center items-center p-10 relative">
+    <video class="video-bg" autoplay muted loop>
+      <source src="https://cdn.pixabay.com/video/2021/05/07/73424-548173428_large.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+    <div class="absolute inset-0 quantum-grid"></div>
+    <div id="particles-container" class="absolute inset-0"></div>
+    
+    <!-- Central Glowing Orb -->
+    <div class="central-orb"></div>
+    
+    <div class="relative z-10 text-center max-w-4xl">
+      <!-- Main Title -->
+      <h1 class="title text-4xl font-light mb-6 leading-tight" style="color:#ffffff;text-shadow:0 0 10px rgba(0,200,255,0.5);">
+        Quantum Randomness:<br>The Future of True Security & Computation
+      </h1>
+      
+      <!-- Divider -->
+      <div class="w-32 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto mb-8"></div>
+      
+      <!-- Main Message -->
+      <p class="text-xl text-cyan-200 mb-10 leading-relaxed">
+        <span class="text-line">Understanding quantum mechanics allowed us to build a device</span>
+        <span class="text-line">that turns fundamental uncertainty into powerful real-world tools —</span>
+        <span class="text-line">CAPTCHAs, cryptography, simulations, and beyond.</span>
+      </p>
+      
+      <!-- Contributors Grid -->
+      <div class="grid grid-cols-3 gap-4 mb-10">
+        <div class="name-glow text-cyan-100 text-lg">Pranav Bharadwaj N</div>
+        <div class="name-glow text-cyan-100 text-lg">Utsav</div>
+        <div class="name-glow text-cyan-100 text-lg">Arhaan Modi</div>
+        <div class="name-glow text-cyan-100 text-lg">Ishan Vaidya</div>
+        <div class="name-glow text-cyan-100 text-lg">Dipesh Raj S</div>
+        <div class="name-glow text-cyan-100 text-lg">Arav Shrivastava</div>
+        <div class="name-glow text-cyan-100 text-lg">Ishan Shukla</div>
+        <div class="name-glow text-cyan-100 text-lg">Badri Narayan S</div>
+        <div class="name-glow text-cyan-100 text-lg">Gokula Krishnan N.S</div>
+      </div>
+      
+      <!-- Special Thanks -->
+      <div class="mt-8">
+        <h3 class="text-2xl font-medium mb-4 text-cyan-300">Special Thanks</h3>
+        <p class="text-xl text-cyan-100 name-glow">Dr. M.C. Ramkumar</p>
+      </div>
+    </div>
+    
+    <!-- Final Fade-out Animation Trigger -->
+    <div id="fade-trigger" class="absolute bottom-8 text-cyan-400 text-sm opacity-60">
+      Presentation Complete
+    </div>
+  </div>
+
+  <script>
+    gsap.registerPlugin(SplitText);
+    
+    // Create quantum particles
+    function createParticles(containerId, count = 25) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'quantum-particle';
+        
+        const size = Math.random() * 8 + 3;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        container.appendChild(particle);
+        
+        // Animate particles moving toward center
+        gsap.to(particle, {
+          x: `+=${(640 - parseFloat(particle.style.left)) * 0.5}`,
+          y: `+=${(360 - parseFloat(particle.style.top)) * 0.5}`,
+          duration: Math.random() * 8 + 4,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    }
+    
+    // Create nebula fade-out effect
+    function startNebulaFade() {
+      const elements = [
+        document.querySelector('.title'),
+        document.querySelector('.text-xl'),
+        document.querySelector('.grid'),
+        document.querySelector('.mt-8')
+      ];
+      
+      elements.forEach((el, index) => {
+        if (el) {
+          gsap.to(el, {
+            opacity: 0,
+            y: -20,
+            duration: 2,
+            delay: 2 + (index * 0.3),
+            ease: "power2.out"
+          });
+        }
+      });
+      
+      // Fade out particles
+      gsap.to('.quantum-particle', {
+        opacity: 0,
+        duration: 3,
+        delay: 2,
+        ease: "power2.out"
+      });
+      
+      // Fade out central orb
+      gsap.to('.central-orb', {
+        opacity: 0,
+        scale: 0,
+        duration: 3,
+        delay: 2.5,
+        ease: "power2.out"
+      });
+    }
+    
+    // Initialize particles
+    createParticles('particles-container');
+    
+    // Initialize animations
+    setTimeout(() => {
+      const title = document.querySelector('.title');
+      const mainMessage = document.querySelector('.text-xl');
+      const names = document.querySelectorAll('.name-glow');
+      const specialThanks = document.querySelector('.mt-8');
+      const centralOrb = document.querySelector('.central-orb');
+      
+      // Animate central orb
+      if (centralOrb) {
+        gsap.fromTo(centralOrb, {
+          opacity: 0,
+          scale: 0
+        }, {
+          opacity: 0.3,
+          scale: 1,
+          duration: 2,
+          ease: "elastic.out(1, 0.5)"
+        });
+      }
+      
+      // Animate title
+      if (title) {
+        const titleSplit = new SplitText(title, { type: "lines" });
+        gsap.fromTo(titleSplit.lines, {
+          opacity: 0,
+          y: 50,
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.2,
+          ease: "back.out(1.7)"
+        });
+      }
+      
+      // Animate main message
+      if (mainMessage) {
+        gsap.fromTo(mainMessage, {
+          opacity: 0,
+          y: 30
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          delay: 0.8,
+          ease: "power3.out"
+        });
+      }
+      
+      // Animate names with staggered glow effect
+      names.forEach((name, index) => {
+        gsap.fromTo(name, {
+          opacity: 0,
+          scale: 0.8,
+          y: 20
+        }, {
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.6,
+          delay: 1.5 + (index * 0.1),
+          ease: "back.out(1.7)"
+        });
+      });
+      
+      // Animate special thanks
+      if (specialThanks) {
+        gsap.fromTo(specialThanks, {
+          opacity: 0,
+          y: 30
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          delay: 2.5,
+          ease: "power2.out"
+        });
+      }
+      
+      // Start final fade-out after everything is displayed
+      setTimeout(startNebulaFade, 5000);
+      
+    }, 500);
+  </script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Random Number Generators - Slide 11</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #0a0e17;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      position: relative;
+      transform: scale(0.8);
+      transform-origin: center center;
+    }
+    .quantum-bg {
+      background: radial-gradient(ellipse at center, #1a1f35 0%, #0a0e17 70%);
+    }
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      z-index: 1;
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 14, 23, 0.7);
+      z-index: 2;
+    }
+    .quantum-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 200, 255, 0.3);
+      filter: blur(2px);
+    }
+    .quantum-grid {
+      background-image: 
+        linear-gradient(rgba(0, 200, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .neon-glow {
+      box-shadow: 0 0 10px rgba(0, 200, 255, 0.7),
+                  0 0 20px rgba(0, 200, 255, 0.5),
+                  0 0 30px rgba(0, 200, 255, 0.3);
+    }
+    .text-line {
+      display: block;
+      width: 100%;
+    }
+    .feature-card {
+      border: 2px solid rgba(0, 200, 255, 0.4);
+      border-radius: 12px;
+      background: rgba(0, 200, 255, 0.08);
+      backdrop-filter: blur(10px);
+    }
+    .audio-visualizer {
+      border: 2px solid rgba(0, 200, 255, 0.5);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+    .audio-bar {
+      background: linear-gradient(to top, #00c8ff, #0066ff);
+      border-radius: 4px 4px 0 0;
+      transition: height 0.1s ease;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .floating-note {
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide quantum-bg flex items-center justify-between p-10 relative">
+    <video class="video-bg" autoplay muted loop>
+      <source src="https://cdn.pixabay.com/video/2022/07/26/125503-733826762_large.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+    <div class="absolute inset-0 quantum-grid"></div>
+    <div id="particles-container" class="absolute inset-0"></div>
+    
+    <div class="flex-1 pr-8 z-10">
+      <h1 class="title text-3xl font-light mb-6 leading-tight" style="color:#ffffff;text-shadow:0 0 10px rgba(0,200,255,0.5);">
+        Turning QRNG Outputs into<br>Live Music
+      </h1>
+      
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-xl font-medium mb-4 text-cyan-300">Your System:</h3>
+          <div class="space-y-4">
+            <div class="feature-card p-4 neon-glow">
+              <div class="flex items-center mb-2">
+                <div class="w-6 h-6 rounded-full bg-cyan-700 flex items-center justify-center mr-3">
+                  <span class="text-white text-sm">🔌</span>
+                </div>
+                <h4 class="text-cyan-100 font-medium">Arduino Streams Characters</h4>
+              </div>
+              <p class="text-cyan-200 text-xs">
+                <span class="text-line">Continuous entropy stream from</span>
+                <span class="text-line">quantum circuit to computer</span>
+              </p>
+            </div>
+            
+            <div class="feature-card p-4 neon-glow">
+              <div class="flex items-center mb-2">
+                <div class="w-6 h-6 rounded-full bg-cyan-700 flex items-center justify-center mr-3">
+                  <span class="text-white text-sm">🐍</span>
+                </div>
+                <h4 class="text-cyan-100 font-medium">Python + Flask-SocketIO</h4>
+              </div>
+              <p class="text-cyan-200 text-xs">
+                <span class="text-line">Real-time mapping of entropy</span>
+                <span class="text-line">to musical parameters and pitch</span>
+              </p>
+            </div>
+            
+            <div class="feature-card p-4 neon-glow">
+              <div class="flex items-center mb-2">
+                <div class="w-6 h-6 rounded-full bg-cyan-700 flex items-center justify-center mr-3">
+                  <span class="text-white text-sm">🌐</span>
+                </div>
+                <h4 class="text-cyan-100 font-medium">Web Audio API</h4>
+              </div>
+              <p class="text-cyan-200 text-xs">
+                <span class="text-line">Browser synthesizes real-time</span>
+                <span class="text-line">audio without MP3/MIDI files</span>
+              </p>
+            </div>
+            
+            <div class="feature-card p-4 neon-glow">
+              <div class="flex items-center mb-2">
+                <div class="w-6 h-6 rounded-full bg-cyan-700 flex items-center justify-center mr-3">
+                  <span class="text-white text-sm">🎵</span>
+                </div>
+                <h4 class="text-cyan-100 font-medium">Ambient Anime-Style Music</h4>
+              </div>
+              <p class="text-cyan-200 text-xs">
+                <span class="text-line">Continuous, evolving musical</span>
+                <span class="text-line">composition using quantum entropy</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-4">
+          <h3 class="text-xl font-medium mb-3 text-cyan-300">Technical Achievement:</h3>
+          <div class="bg-black bg-opacity-30 p-4 rounded-lg border border-cyan-500 neon-glow">
+            <p class="text-cyan-200 text-sm">
+              <span class="text-line">Built a stable IoT → WebAudio pipeline overcoming</span>
+              <span class="text-line">major real-time audio synthesis challenges</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex-1 relative z-10">
+      <!-- Audio Visualizer -->
+      <div class="audio-visualizer p-6 neon-glow mb-6">
+        <div class="text-center mb-6">
+          <h3 class="text-xl font-medium text-cyan-300 mb-2">Live Quantum Music</h3>
+          <p class="text-cyan-200 text-sm">Real-time audio synthesis from quantum entropy</p>
+        </div>
+        
+        <!-- Visualizer Bars -->
+        <div class="flex items-end justify-center space-x-2 h-32 mb-6">
+          <div class="audio-bar w-4" style="height: 20px;"></div>
+          <div class="audio-bar w-4" style="height: 35px;"></div>
+          <div class="audio-bar w-4" style="height: 50px;"></div>
+          <div class="audio-bar w-4" style="height: 65px;"></div>
+          <div class="audio-bar w-4" style="height: 80px;"></div>
+          <div class="audio-bar w-4" style="height: 65px;"></div>
+          <div class="audio-bar w-4" style="height: 50px;"></div>
+          <div class="audio-bar w-4" style="height: 35px;"></div>
+          <div class="audio-bar w-4" style="height: 20px;"></div>
+        </div>
+        
+        <!-- Music Controls -->
+        <div class="flex justify-center space-x-4">
+          <button class="px-4 py-2 bg-cyan-700 text-cyan-100 rounded-lg text-sm hover:bg-cyan-600 transition-colors">
+            ▶ Play
+          </button>
+          <button class="px-4 py-2 bg-cyan-700 text-cyan-100 rounded-lg text-sm hover:bg-cyan-600 transition-colors">
+            ⏸️ Pause
+          </button>
+          <button class="px-4 py-2 bg-cyan-700 text-cyan-100 rounded-lg text-sm hover:bg-cyan-600 transition-colors">
+            🔀 Randomize
+          </button>
+        </div>
+        
+        <!-- Floating Music Notes -->
+        <div class="absolute top-4 right-4 text-cyan-400 floating-note">♪</div>
+        <div class="absolute bottom-4 left-4 text-cyan-400 floating-note" style="animation-delay: 1.5s;">♫</div>
+        <div class="absolute top-12 left-8 text-cyan-400 floating-note" style="animation-delay: 0.7s;">🎵</div>
+      </div>
+      
+      <!-- Technical Specifications -->
+      <div class="feature-card p-5 neon-glow">
+        <h3 class="text-lg font-medium mb-3 text-cyan-300 text-center">Pipeline Architecture</h3>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between items-center">
+            <span class="text-cyan-200">Data Source:</span>
+            <span class="text-cyan-100 font-mono">QRNG Hardware</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-cyan-200">Processing:</span>
+            <span class="text-cyan-100 font-mono">Python Flask</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-cyan-200">Real-time Comm:</span>
+            <span class="text-cyan-100 font-mono">SocketIO</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-cyan-200">Audio Synthesis:</span>
+            <span class="text-cyan-100 font-mono">Web Audio API</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-cyan-200">Latency:</span>
+            <span class="text-cyan-100 font-mono">&lt; 50ms</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Glowing accent element -->
+      <div class="absolute -top-3 -right-3 w-10 h-10" style="background:radial-gradient(circle,rgba(0,200,255,0.3) 0%,transparent 70%);border-radius:50%;"></div>
+    </div>
+  </div>
+
+  <script>
+    gsap.registerPlugin(SplitText);
+    
+    // Create quantum particles
+    function createParticles(containerId, count = 12) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'quantum-particle';
+        
+        const size = Math.random() * 6 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        container.appendChild(particle);
+        
+        // Animate particles
+        gsap.to(particle, {
+          x: `+=${(Math.random() - 0.5) * 50}`,
+          y: `+=${(Math.random() - 0.5) * 50}`,
+          duration: Math.random() * 6 + 3,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    }
+    
+    // Animate audio visualizer bars
+    function animateAudioBars() {
+      const bars = document.querySelectorAll('.audio-bar');
+      bars.forEach((bar, index) => {
+        const randomHeight = 20 + Math.random() * 60;
+        gsap.to(bar, {
+          height: `${randomHeight}px`,
+          duration: 0.3 + Math.random() * 0.4,
+          delay: index * 0.05,
+          ease: "power2.out",
+          onComplete: animateAudioBars
+        });
+      });
+    }
+    
+    // Initialize particles
+    createParticles('particles-container');
+    
+    // Initialize animations
+    setTimeout(() => {
+      const title = document.querySelector('.title');
+      const featureCards = document.querySelectorAll('.feature-card');
+      const achievementBox = document.querySelector('.bg-black.bg-opacity-30');
+      const audioVisualizer = document.querySelector('.audio-visualizer');
+      const floatingNotes = document.querySelectorAll('.floating-note');
+      
+      if (title) {
+        const titleSplit = new SplitText(title, { type: "chars" });
+        gsap.fromTo(titleSplit.chars, {
+          opacity: 0,
+          y: 30,
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.02,
+          ease: "back.out(1.7)"
+        });
+      }
+      
+      // Animate feature cards
+      gsap.fromTo(featureCards, {
+        opacity: 0,
+        y: 30,
+        scale: 0.9
+      }, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        stagger: 0.15,
+        delay: 0.5,
+        ease: "back.out(1.7)"
+      });
+      
+      // Animate achievement box
+      if (achievementBox) {
+        gsap.fromTo(achievementBox, {
+          opacity: 0,
+          y: 20
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: 1.2,
+          ease: "power2.out"
+        });
+      }
+      
+      // Animate audio visualizer
+      if (audioVisualizer) {
+        gsap.fromTo(audioVisualizer, {
+          opacity: 0,
+          scale: 0.9,
+          x: 30
+        }, {
+          opacity: 1,
+          scale: 1,
+          x: 0,
+          duration: 1,
+          delay: 0.8,
+          ease: "back.out(1.7)"
+        });
+      }
+      
+      // Animate floating notes
+      floatingNotes.forEach((note, index) => {
+        gsap.fromTo(note, {
+          opacity: 0,
+          scale: 0,
+          rotation: 180
+        }, {
+          opacity: 1,
+          scale: 1,
+          rotation: 0,
+          duration: 0.8,
+          delay: 1.5 + (index * 0.2),
+          ease: "back.out(1.7)"
+        });
+      });
+      
+      // Start audio visualizer animation
+      setTimeout(animateAudioBars, 2000);
+      
+    }, 500);
+  </script>
+</body>
+</html>

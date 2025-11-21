@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Random Number Generators - Slide 3</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #0a0e17;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      position: relative;
+      transform: scale(0.85);
+      transform-origin: center center;
+    }
+    .quantum-bg {
+      background: radial-gradient(ellipse at center, #1a1f35 0%, #0a0e17 70%);
+    }
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      z-index: 1;
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 14, 23, 0.7);
+      z-index: 2;
+    }
+    .quantum-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 200, 255, 0.3);
+      filter: blur(2px);
+    }
+    .quantum-grid {
+      background-image: 
+        linear-gradient(rgba(0, 200, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .neon-glow {
+      box-shadow: 0 0 10px rgba(0, 200, 255, 0.7),
+                  0 0 20px rgba(0, 200, 255, 0.5),
+                  0 0 30px rgba(0, 200, 255, 0.3);
+    }
+    .text-line {
+      display: block;
+      width: 100%;
+    }
+    .component-frame {
+      border: 2px solid rgba(0, 200, 255, 0.6);
+      border-radius: 12px;
+      background: rgba(0, 200, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body>
+  <div class="slide quantum-bg flex flex-col p-12 relative">
+    <video class="video-bg" autoplay muted loop>
+      <source src="https://v.ftcdn.net/04/20/68/09/700_F_420680974_H9zDZXIRTB5GVbrV4gLo2huGQkr2Rf9Y_ST.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+    <div class="absolute inset-0 quantum-grid"></div>
+    <div id="particles-container" class="absolute inset-0"></div>
+    
+    <div class="text-center mb-8 z-10">
+      <h1 class="title text-4xl font-light mb-4" style="color:#ffffff;text-shadow:0 0 10px rgba(0,200,255,0.5);">
+        Core Components of Our QRNG System
+      </h1>
+    </div>
+    
+    <div class="grid grid-cols-2 gap-6 z-10 mb-8">
+      <div class="component-card component-frame p-5 rounded-lg neon-glow">
+        <div class="flex items-center mb-4">
+          <div class="w-10 h-10 rounded-full bg-cyan-700 flex items-center justify-center mr-4">
+            <span class="text-white font-bold text-lg">1</span>
+          </div>
+          <h3 class="text-xl font-medium text-cyan-100">555 Timer (Entropy Source)</h3>
+        </div>
+        <p class="text-cyan-200 text-sm">
+          <span class="text-line">Generates chaotic analog oscillations</span>
+          <span class="text-line">approximating quantum unpredictability.</span>
+        </p>
+      </div>
+      
+      <div class="component-card component-frame p-5 rounded-lg neon-glow">
+        <div class="flex items-center mb-4">
+          <div class="w-10 h-10 rounded-full bg-cyan-700 flex items-center justify-center mr-4">
+            <span class="text-white font-bold text-lg">2</span>
+          </div>
+          <h3 class="text-xl font-medium text-cyan-100">Dual D Flip-Flop (74HC74)</h3>
+        </div>
+        <p class="text-cyan-200 text-sm">
+          <span class="text-line">Captures instantaneous states of the</span>
+          <span class="text-line">chaotic signal → converts to crisp</span>
+          <span class="text-line">digital bits.</span>
+        </p>
+      </div>
+      
+      <div class="component-card component-frame p-5 rounded-lg neon-glow">
+        <div class="flex items-center mb-4">
+          <div class="w-10 h-10 rounded-full bg-cyan-700 flex items-center justify-center mr-4">
+            <span class="text-white font-bold text-lg">3</span>
+          </div>
+          <h3 class="text-xl font-medium text-cyan-100">Arduino Microcontroller</h3>
+        </div>
+        <p class="text-cyan-200 text-sm">
+          <span class="text-line">Processes raw bits, performs randomness</span>
+          <span class="text-line">extraction, outputs final random stream.</span>
+        </p>
+      </div>
+      
+      <div class="component-card component-frame p-5 rounded-lg neon-glow">
+        <div class="flex items-center mb-4">
+          <div class="w-10 h-10 rounded-full bg-cyan-700 flex items-center justify-center mr-4">
+            <span class="text-white font-bold text-lg">4</span>
+          </div>
+          <h3 class="text-xl font-medium text-cyan-100">LED Indicator</h3>
+        </div>
+        <p class="text-cyan-200 text-sm">
+          <span class="text-line">Visual monitoring of bit generation</span>
+          <span class="text-line">& system status.</span>
+        </p>
+      </div>
+    </div>
+    
+    <!-- Total Cost Display -->
+    <div class="flex-1 flex items-center justify-center z-10">
+      <div class="bg-black bg-opacity-30 px-8 py-6 rounded-lg border border-cyan-500 neon-glow text-center">
+        <h3 class="text-2xl font-medium mb-3 text-cyan-300">Total Project Cost</h3>
+        <p class="text-3xl font-bold text-cyan-100">₹154</p>
+        <p class="text-cyan-200 text-sm mt-2">(breadboard + wiring + components)</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    gsap.registerPlugin(SplitText);
+    
+    // Create quantum particles
+    function createParticles(containerId, count = 15) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'quantum-particle';
+        
+        const size = Math.random() * 6 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        container.appendChild(particle);
+        
+        // Animate particles
+        gsap.to(particle, {
+          x: `+=${(Math.random() - 0.5) * 50}`,
+          y: `+=${(Math.random() - 0.5) * 50}`,
+          duration: Math.random() * 6 + 3,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    }
+    
+    // Initialize particles
+    createParticles('particles-container');
+    
+    // Initialize animations
+    setTimeout(() => {
+      const title = document.querySelector('.title');
+      const componentCards = document.querySelectorAll('.component-card');
+      const costBox = document.querySelector('.bg-black.bg-opacity-30');
+      
+      if (title) {
+        const titleSplit = new SplitText(title, { type: "chars" });
+        gsap.fromTo(titleSplit.chars, {
+          opacity: 0,
+          y: 30,
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.02,
+          ease: "back.out(1.7)"
+        });
+      }
+      
+      // Animate component cards
+      gsap.fromTo(componentCards, {
+        opacity: 0,
+        y: 40,
+        scale: 0.9
+      }, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.8,
+        stagger: 0.15,
+        delay: 0.5,
+        ease: "back.out(1.7)"
+      });
+      
+      // Animate cost box
+      if (costBox) {
+        gsap.fromTo(costBox, {
+          opacity: 0,
+          y: 30,
+          scale: 0.9
+        }, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1,
+          delay: 1.5,
+          ease: "back.out(1.7)"
+        });
+      }
+      
+    }, 500);
+  </script>
+</body>
+</html>

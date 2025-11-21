@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Random Number Generators - Slide 10</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #0a0e17;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      position: relative;
+      transform: scale(0.8);
+      transform-origin: center center;
+    }
+    .quantum-bg {
+      background: radial-gradient(ellipse at center, #1a1f35 0%, #0a0e17 70%);
+    }
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      z-index: 1;
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 14, 23, 0.7);
+      z-index: 2;
+    }
+    .quantum-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 200, 255, 0.3);
+      filter: blur(2px);
+    }
+    .quantum-grid {
+      background-image: 
+        linear-gradient(rgba(0, 200, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 200, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .neon-glow {
+      box-shadow: 0 0 10px rgba(0, 200, 255, 0.7),
+                  0 0 20px rgba(0, 200, 255, 0.5),
+                  0 0 30px rgba(0, 200, 255, 0.3);
+    }
+    .text-line {
+      display: block;
+      width: 100%;
+    }
+    .use-case-card {
+      border: 2px solid rgba(0, 200, 255, 0.4);
+      border-radius: 16px;
+      background: rgba(0, 200, 255, 0.08);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    .use-case-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0, 200, 255, 0.8),
+                  0 0 40px rgba(0, 200, 255, 0.6),
+                  0 0 60px rgba(0, 200, 255, 0.4);
+    }
+    .icon-container {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00c8ff, #0066ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .pulse-ring {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border: 2px solid rgba(0, 200, 255, 0.5);
+      border-radius: 50%;
+      animation: ringPulse 3s infinite;
+    }
+    @keyframes ringPulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.5; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="slide quantum-bg flex flex-col p-10 relative">
+    <video class="video-bg" autoplay muted loop>
+      <source src="https://cdn.pixabay.com/video/2025/06/12/285523_large.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+    <div class="absolute inset-0 quantum-grid"></div>
+    <div id="particles-container" class="absolute inset-0"></div>
+    
+    <div class="text-center mb-8 z-10">
+      <h1 class="title text-3xl font-light mb-4" style="color:#ffffff;text-shadow:0 0 10px rgba(0,200,255,0.5);">
+        Where QRNGs Are Used Today
+      </h1>
+    </div>
+    
+    <!-- Use Cases Grid -->
+    <div class="grid grid-cols-2 gap-6 z-10 flex-1">
+      <!-- Cryptographic Security -->
+      <div class="use-case-card p-6 neon-glow">
+        <div class="relative flex justify-center mb-4">
+          <div class="pulse-ring"></div>
+          <div class="icon-container">
+            <span class="text-white text-2xl">🔒</span>
+          </div>
+        </div>
+        <h3 class="text-xl font-medium text-cyan-300 mb-3 text-center">Cryptographic Security</h3>
+        <div class="space-y-2">
+          <p class="text-cyan-200 text-sm text-center">
+            <span class="text-line">Generating unbreakable encryption</span>
+            <span class="text-line">keys and secure authentication</span>
+            <span class="text-line">tokens for digital security</span>
+          </p>
+          <div class="text-cyan-400 text-xs text-center mt-3">
+            <span class="text-line">Banking • Military • Secure Comms</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Scientific Simulations -->
+      <div class="use-case-card p-6 neon-glow">
+        <div class="relative flex justify-center mb-4">
+          <div class="pulse-ring"></div>
+          <div class="icon-container">
+            <span class="text-white text-2xl">🔬</span>
+          </div>
+        </div>
+        <h3 class="text-xl font-medium text-cyan-300 mb-3 text-center">Scientific Simulations</h3>
+        <div class="space-y-2">
+          <p class="text-cyan-200 text-sm text-center">
+            <span class="text-line">Monte Carlo methods for complex</span>
+            <span class="text-line">system modeling and quantum</span>
+            <span class="text-line">physics simulations</span>
+          </p>
+          <div class="text-cyan-400 text-xs text-center mt-3">
+            <span class="text-line">Research • Climate Modeling • Drug Discovery</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gaming & Lotteries -->
+      <div class="use-case-card p-6 neon-glow">
+        <div class="relative flex justify-center mb-4">
+          <div class="pulse-ring"></div>
+          <div class="icon-container">
+            <span class="text-white text-2xl">🎮</span>
+          </div>
+        </div>
+        <h3 class="text-xl font-medium text-cyan-300 mb-3 text-center">Gaming & Lotteries</h3>
+        <div class="space-y-2">
+          <p class="text-cyan-200 text-sm text-center">
+            <span class="text-line">Ensuring fair and unpredictable</span>
+            <span class="text-line">outcomes in games of chance</span>
+            <span class="text-line">and digital entertainment</span>
+          </p>
+          <div class="text-cyan-400 text-xs text-center mt-3">
+            <span class="text-line">Casinos • Online Games • National Lotteries</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quantum Communication -->
+      <div class="use-case-card p-6 neon-glow">
+        <div class="relative flex justify-center mb-4">
+          <div class="pulse-ring"></div>
+          <div class="icon-container">
+            <span class="text-white text-2xl">📡</span>
+          </div>
+        </div>
+        <h3 class="text-xl font-medium text-cyan-300 mb-3 text-center">Quantum Communication</h3>
+        <div class="space-y-2">
+          <p class="text-cyan-200 text-sm text-center">
+            <span class="text-line">Quantum key distribution and</span>
+            <span class="text-line">secure quantum channels for</span>
+            <span class="text-line">future-proof communication</span>
+          </p>
+          <div class="text-cyan-400 text-xs text-center mt-3">
+            <span class="text-line">QKD • Secure Networks • Quantum Internet</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Future Applications -->
+    <div class="text-center mt-6 z-10">
+      <div class="inline-block bg-black bg-opacity-30 px-6 py-4 rounded-lg border border-cyan-500 neon-glow">
+        <h3 class="text-lg font-medium mb-2 text-cyan-300">Emerging Applications</h3>
+        <p class="text-cyan-200 text-sm">
+          <span class="text-line">AI Training • Blockchain Security • IoT Device Authentication •</span>
+          <span class="text-line">Digital Art NFTs • Secure Voting Systems</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    gsap.registerPlugin(SplitText);
+    
+    // Create quantum particles
+    function createParticles(containerId, count = 15) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'quantum-particle';
+        
+        const size = Math.random() * 6 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        container.appendChild(particle);
+        
+        // Animate particles
+        gsap.to(particle, {
+          x: `+=${(Math.random() - 0.5) * 50}`,
+          y: `+=${(Math.random() - 0.5) * 50}`,
+          duration: Math.random() * 6 + 3,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    }
+    
+    // Initialize particles
+    createParticles('particles-container');
+    
+    // Initialize animations
+    setTimeout(() => {
+      const title = document.querySelector('.title');
+      const useCaseCards = document.querySelectorAll('.use-case-card');
+      const futureBox = document.querySelector('.bg-black.bg-opacity-30');
+      const pulseRings = document.querySelectorAll('.pulse-ring');
+      
+      if (title) {
+        const titleSplit = new SplitText(title, { type: "chars" });
+        gsap.fromTo(titleSplit.chars, {
+          opacity: 0,
+          y: 30,
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.02,
+          ease: "back.out(1.7)"
+        });
+      }
+      
+      // Animate use case cards with floating effect
+      useCaseCards.forEach((card, index) => {
+        gsap.fromTo(card, {
+          opacity: 0,
+          y: 60,
+          scale: 0.8,
+          rotationY: 15
+        }, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          rotationY: 0,
+          duration: 0.8,
+          delay: 0.5 + (index * 0.2),
+          ease: "back.out(1.7)"
+        });
+      });
+      
+      // Animate pulse rings
+      pulseRings.forEach((ring, index) => {
+        gsap.fromTo(ring, {
+          opacity: 0,
+          scale: 0.5
+        }, {
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          delay: 0.8 + (index * 0.1),
+          ease: "elastic.out(1, 0.5)"
+        });
+      });
+      
+      // Animate future applications box
+      if (futureBox) {
+        gsap.fromTo(futureBox, {
+          opacity: 0,
+          y: 30,
+          scale: 0.9
+        }, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          delay: 1.8,
+          ease: "back.out(1.7)"
+        });
+      }
+      
+      // Add hover effects to cards
+      useCaseCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          gsap.to(card, {
+            y: -5,
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card, {
+            y: 0,
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        });
+      });
+      
+    }, 500);
+  </script>
+</body>
+</html>
